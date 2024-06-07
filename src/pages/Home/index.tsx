@@ -22,14 +22,16 @@ const newCycleFormValidationSchema = zod.object({
     .refine((value) => value % 5 === 0, 'Valor deve ser múltiplo de 5'),
 })
 
+type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
+
 export function Home() {
-  const { register, handleSubmit, watch, formState } = useForm({
+  const { register, handleSubmit, watch } = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
   })
 
-  function handleCreateNewCycle(data: any) {
+  function handleCreateNewCycle(formData: NewCycleFormData) {
     console.log('Form Submitted')
-    console.log(data)
+    console.log(formData)
   }
 
   const task = watch('task')
